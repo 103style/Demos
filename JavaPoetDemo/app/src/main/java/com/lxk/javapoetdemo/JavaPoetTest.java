@@ -152,7 +152,7 @@ public class JavaPoetTest {
         //private static final String TAG = generateClassName;
         typeSpeBuilder.addField(
                 FieldSpec.builder(
-                        ClassName.get(String.class), "TAG", Modifier.PRIVATE, Modifier.STATIC, Modifier.FINAL)
+                        String.class, "TAG", Modifier.PRIVATE, Modifier.STATIC, Modifier.FINAL)
                         .initializer("$S", generateClassName)
                         .build()
         );
@@ -178,7 +178,7 @@ public class JavaPoetTest {
 
         //transient Object[] elementData;
         typeSpeBuilder.addField(
-                FieldSpec.builder(ArrayTypeName.of(ClassName.get(Object.class)), elementData)
+                FieldSpec.builder(ArrayTypeName.of(Object.class), elementData)
                         .addModifiers(Modifier.TRANSIENT).build()
         );
 
@@ -230,7 +230,7 @@ public class JavaPoetTest {
         //@Override public int size(){return size;}
         typeSpeBuilder.addMethod(
                 MethodSpec.methodBuilder("size")
-                        .addAnnotation(ClassName.get(Override.class))
+                        .addAnnotation(Override.class)
                         .addModifiers(Modifier.PUBLIC)
                         .returns(int.class)
                         .addStatement("return $L", "size")
@@ -267,7 +267,7 @@ public class JavaPoetTest {
         //public int compareTo(generateClassName<? extends T> o){}
         typeSpeBuilder.addMethod(
                 MethodSpec.methodBuilder("compareTo")
-                        .addAnnotation(AnnotationSpec.builder(ClassName.get(Override.class)).build())
+                        .addAnnotation(AnnotationSpec.builder(Override.class).build())
                         .addModifiers(Modifier.PUBLIC)
                         .returns(int.class)
                         .addParameter(
