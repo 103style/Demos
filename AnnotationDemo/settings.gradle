@@ -1,2 +1,2 @@
-include ':app'
+include ':app', ':annotation', ':compiler'
 rootProject.name='AnnotationDemo'
