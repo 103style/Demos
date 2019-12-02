@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TestView testView;
 
     private Button btReset, btInterceptAll, btGroupSetOnClick, btViewSetOnClick, btInterceptDown,
-            btInterceptMove, btInterceptUp;
+            btInterceptMove, btInterceptUp, btViewClickAble, btViewEnable;
 
     private View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
@@ -42,6 +42,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btInterceptDown = findViewById(R.id.bt_intercept_down);
         btInterceptMove = findViewById(R.id.bt_intercept_move);
         btInterceptUp = findViewById(R.id.bt_intercept_up);
+        btViewClickAble = findViewById(R.id.bt_view_clickable);
+        btViewEnable = findViewById(R.id.bt_view_enable);
 
         btReset.setOnClickListener(this);
         btInterceptAll.setOnClickListener(this);
@@ -50,6 +52,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btInterceptDown.setOnClickListener(this);
         btInterceptMove.setOnClickListener(this);
         btInterceptUp.setOnClickListener(this);
+        btViewClickAble.setOnClickListener(this);
+        btViewEnable.setOnClickListener(this);
     }
 
     @Override
@@ -102,6 +106,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.bt_intercept_up:
                 testLinearLayout.setClickable(false);
                 TestLinearLayout.setInterceptEvent(MotionEvent.ACTION_UP);
+                break;
+            case R.id.bt_view_clickable:
+                testView.setClickable(true);
+                break;
+            case R.id.bt_view_enable:
+                testView.setEnabled(false);
                 break;
             default:
                 break;

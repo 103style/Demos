@@ -67,5 +67,19 @@
         android:text="Group intercept up"
         android:textAllCaps="false" />
 
+    <Button
+        android:id="@+id/bt_view_clickable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="set view Clickable true"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/bt_view_enable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="set view enable false"
+        android:textAllCaps="false" />
+
 
 </LinearLayout>
