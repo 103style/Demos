@@ -1,6 +1,11 @@
 ### 示例验证
 [Demo源码github地址](https://github.com/103style/Demos/tree/master/MotionEventDemo)
 
+我们分别创建监听上面三个方法的 ViewGroup 和 View， 然后在测试Activity中重写上面的方法，如下：
+[TestLinearLayout.java](https://github.com/103style/Demos/blob/master/MotionEventDemo/app/src/main/java/com/lxk/motioneventdemo/TestLinearLayout.java)、[TestView.java](https://github.com/103style/Demos/blob/master/MotionEventDemo/app/src/main/java/com/lxk/motioneventdemo/TestView.java)、[EventHandler.java](https://github.com/103style/Demos/blob/master/MotionEventDemo/app/src/main/java/com/lxk/motioneventdemo/EventHandler.java)、[MainActivity.java](https://github.com/103style/Demos/blob/master/MotionEventDemo/app/src/main/java/com/lxk/motioneventdemo/MainActivity.java)、[activity_main.xml](https://github.com/103style/Demos/blob/master/MotionEventDemo/app/src/main/res/layout/activity_main.xml)
+
+---
+
 我们通过以下测试方法来验证：
 > * 默认什么都不做
 > * View 设置点击事件
@@ -23,10 +28,6 @@
 > * ViewGroup 拦截 UP 事件，并设置 View 的点击事件
 > * ViewGroup 拦截 UP 事件，并设置 View 和 ViewGroup 的点击事件
 
----
-
-我们分别创建监听上面三个方法的 ViewGroup 和 View， 然后在测试Activity中重写上面的方法，如下：
-[TestLinearLayout.java](https://github.com/103style/Demos/blob/master/MotionEventDemo/app/src/main/java/com/lxk/motioneventdemo/TestLinearLayout.java)、[TestView.java](https://github.com/103style/Demos/blob/master/MotionEventDemo/app/src/main/java/com/lxk/motioneventdemo/TestView.java)、[EventHandler.java](https://github.com/103style/Demos/blob/master/MotionEventDemo/app/src/main/java/com/lxk/motioneventdemo/EventHandler.java)、[MainActivity.java](https://github.com/103style/Demos/blob/master/MotionEventDemo/app/src/main/java/com/lxk/motioneventdemo/MainActivity.java)、[activity_main.xml](https://github.com/103style/Demos/blob/master/MotionEventDemo/app/src/main/res/layout/activity_main.xml)
 
 
 ---
@@ -42,15 +43,15 @@ TestView: onTouchEvent: ev.getAction() = ACTION_DOWN
 TestLinearLayout: onTouchEvent: ev.getAction() = ACTION_DOWN
 MainActivity: onTouchEvent: ev.getAction() = ACTION_DOWN
 
-MainActivity: dispatchTouchEvent: ev.getAction() = ACTION_MOVE
-MainActivity: onTouchEvent: ev.getAction() = ACTION_MOVE
-...
+多次
 MainActivity: dispatchTouchEvent: ev.getAction() = ACTION_MOVE
 MainActivity: onTouchEvent: ev.getAction() = ACTION_MOVE
 
 MainActivity: dispatchTouchEvent: ev.getAction() = ACTION_UP
 MainActivity: onTouchEvent: ev.getAction() = ACTION_UP
 ```
+>`tips`: 多次表示 下面那些事件依次执行 循环多次.
+
 从以上日志我们可以看到 `DOWN` 事件的传递路径为从 `MainActivity.dispatchTouchEvent` → `TestLinearLayout.dispatchTouchEvent` → `TestLinearLayout.onInterceptTouchEvent` → `TestView.dispatchTouchEvent` → `TestView.onTouchEvent` → `TestLinearLayout.onTouchEvent` → `MainActivity.onTouchEvent`, 而 MOVE 和  UP 事件就只发生在 `MainActivity`.
 
 ---
@@ -486,5 +487,3 @@ TestView: dispatchTouchEvent: ev.getAction() = ACTION_CANCEL
 TestView: onTouchEvent: ev.getAction() = ACTION_CANCEL
 ```
 
-
-----
