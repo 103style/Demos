@@ -23,12 +23,16 @@ public class TestView extends View {
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         Log.e(TAG, "dispatchTouchEvent: ev.getAction() = " + EventHandler.handlerEvent(ev.getAction()));
-        return super.dispatchTouchEvent(ev);
+        boolean res = super.dispatchTouchEvent(ev);
+        Log.i(TAG, "dispatchTouchEvent: return  " + res);
+        return res;
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         Log.e(TAG, "onTouchEvent: ev.getAction() = " + EventHandler.handlerEvent(event.getAction()));
-        return super.onTouchEvent(event);
+        boolean res = super.onTouchEvent(event);
+        Log.i(TAG, "onTouchEvent: return  " + res);
+        return res;
     }
 }

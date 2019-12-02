@@ -4,7 +4,6 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
@@ -36,28 +35,39 @@ public class TestLinearLayout extends LinearLayout {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
+        boolean res;
         Log.e(TAG, "onInterceptTouchEvent: ev.getAction() = " + EventHandler.handlerEvent(ev.getAction())
                 + ", isIntercept = " + isIntercept);
         if (isIntercept) {
+            res = true;
+            Log.i(TAG, "onInterceptTouchEvent: return " + res);
             return true;
         }
 
         if (ev.getAction() == intercept_event) {
             Log.e(TAG, "intercept event = " + EventHandler.handlerEvent(ev.getAction()));
+            res = true;
+            Log.i(TAG, "onInterceptTouchEvent: return " + res);
             return true;
         }
-        return super.onInterceptTouchEvent(ev);
+        res = super.onInterceptTouchEvent(ev);
+        Log.i(TAG, "onInterceptTouchEvent: return " + res);
+        return res;
     }
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         Log.e(TAG, "dispatchTouchEvent: ev.getAction() = " + EventHandler.handlerEvent(ev.getAction()));
-        return super.dispatchTouchEvent(ev);
+        boolean res = super.dispatchTouchEvent(ev);
+        Log.i(TAG, "dispatchTouchEvent: return  " + res);
+        return res;
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         Log.e(TAG, "onTouchEvent: ev.getAction() = " + EventHandler.handlerEvent(event.getAction()));
-        return super.onTouchEvent(event);
+        boolean res = super.onTouchEvent(event);
+        Log.i(TAG, "onTouchEvent: return  " + res);
+        return res;
     }
 }
