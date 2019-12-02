@@ -8,31 +8,47 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+/**
+ * @author https://github.com/103style
+ * @date 2019/11/27 22:00
+ */
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "MainActivity";
 
-    private TestFrameLayout testFrameLayout;
+    private TestLinearLayout testLinearLayout;
     private TestView testView;
 
-    private Button btReset, btIntercept, btGroupDown, btViewDown;
+    private Button btReset, btInterceptAll, btGroupSetOnClick, btViewSetOnClick, btInterceptDown,
+            btInterceptMove, btInterceptUp;
+    private View.OnClickListener onClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        testFrameLayout = findViewById(R.id.tfl);
+        testLinearLayout = findViewById(R.id.tll);
         testView = findViewById(R.id.tv);
         btReset = findViewById(R.id.bt_reset);
-        btIntercept = findViewById(R.id.bt_intercept);
-        btGroupDown = findViewById(R.id.bt_group_down);
-        btViewDown = findViewById(R.id.bt_view_down);
+        btInterceptAll = findViewById(R.id.bt_intercept_all);
+        btGroupSetOnClick = findViewById(R.id.bt_group_down);
+        btViewSetOnClick = findViewById(R.id.bt_view_down);
+        btInterceptDown = findViewById(R.id.bt_intercept_down);
+        btInterceptMove = findViewById(R.id.bt_intercept_move);
+        btInterceptUp = findViewById(R.id.bt_intercept_up);
 
         btReset.setOnClickListener(this);
-        btIntercept.setOnClickListener(this);
-        btGroupDown.setOnClickListener(this);
-        btViewDown.setOnClickListener(this);
-
+        btInterceptAll.setOnClickListener(this);
+        btGroupSetOnClick.setOnClickListener(this);
+        btViewSetOnClick.setOnClickListener(this);
+        btInterceptDown.setOnClickListener(this);
+        btInterceptMove.setOnClickListener(this);
+        btInterceptUp.setOnClickListener(this);
     }
 
     @Override
@@ -43,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        Log.e(TAG, "onInterceptTouchEvent: ev.getAction() = " + EventHandler.handlerEvent(event.getAction()));
+        Log.e(TAG, "onTouchEvent: ev.getAction() = " + EventHandler.handlerEvent(event.getAction()));
         return super.onTouchEvent(event);
     }
 
@@ -51,28 +67,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bt_reset:
-                TestFrameLayout.setIsIntercept(false);
-                testFrameLayout.setOnClickListener(null);
+                TestLinearLayout.setIsIntercept(false);
+                TestLinearLayout.setInterceptEvent(-1024);
+                testLinearLayout.setOnClickListener(null);
                 testView.setOnClickListener(null);
-                break;
-            case R.id.bt_intercept:
-                TestFrameLayout.setIsIntercept(true);
-                break;
-            case R.id.bt_group_down:
-                testFrameLayout.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                    }
-                });
+                testLinearLayout.setClickable(false);
+                testView.setClickable(false);
                 break;
             case R.id.bt_view_down:
-                testView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                    }
-                });
+                testView.setClickable(true);
+                testView.setOnClickListener(onClickListener);
+                break;
+            case R.id.bt_group_down:
+                testLinearLayout.setClickable(true);
+                testLinearLayout.setOnClickListener(onClickListener);
+                break;
+            case R.id.bt_intercept_all:
+                testLinearLayout.setClickable(false);
+                TestLinearLayout.setIsIntercept(true);
+                break;
+            case R.id.bt_intercept_down:
+                testLinearLayout.setClickable(false);
+                TestLinearLayout.setInterceptEvent(MotionEvent.ACTION_DOWN);
+                break;
+            case R.id.bt_intercept_move:
+                testLinearLayout.setClickable(false);
+                TestLinearLayout.setInterceptEvent(MotionEvent.ACTION_MOVE);
+                break;
+            case R.id.bt_intercept_up:
+                testLinearLayout.setClickable(false);
+                TestLinearLayout.setInterceptEvent(MotionEvent.ACTION_UP);
+                break;
+            default:
                 break;
         }
     }

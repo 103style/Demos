@@ -9,7 +9,8 @@ import android.view.View;
 import androidx.annotation.Nullable;
 
 /**
- * created by 103style  2019/11/27 23:09
+ * @author https://github.com/103style
+ * @date 2019/11/27 23:09
  */
 public class TestView extends View {
 
@@ -23,12 +24,6 @@ public class TestView extends View {
     public boolean dispatchTouchEvent(MotionEvent ev) {
         Log.e(TAG, "dispatchTouchEvent: ev.getAction() = " + EventHandler.handlerEvent(ev.getAction()));
         return super.dispatchTouchEvent(ev);
-    }
-
-    @Override
-    public boolean performClick() {
-        Log.e(TAG, "performClick:");
-        return super.performClick();
     }
 
     @Override

@@ -1,58 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.lxk.motioneventdemo.TestFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/tfl"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-
-    <com.lxk.motioneventdemo.TestView
-        android:id="@+id/tv"
-        android:background="@color/colorAccent"
-        android:layout_width="144dp"
-        android:layout_height="144dp" />
-
-
-    <LinearLayout
+    <com.lxk.motioneventdemo.TestLinearLayout
+        android:id="@+id/tll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="144dp">
+        android:orientation="vertical">
 
-        <Button
-            android:id="@+id/bt_reset"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Reset"
-            android:textAllCaps="false" />
+        <com.lxk.motioneventdemo.TestView
+            android:id="@+id/tv"
+            android:layout_width="144dp"
+            android:layout_height="144dp"
+            android:background="@color/colorAccent" />
 
-        <Button
-            android:id="@+id/bt_intercept"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ViewGroup Intercept"
-            android:textAllCaps="false" />
+    </com.lxk.motioneventdemo.TestLinearLayout>
 
-        <Button
-            android:id="@+id/bt_group_down"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ViewGroup Down"
-            android:textAllCaps="false" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
+    <Button
+        android:id="@+id/bt_reset"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="196dp">
+        android:text="Reset"
+        android:textAllCaps="false" />
 
-        <Button
-            android:id="@+id/bt_view_down"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="View Down"
-            android:textAllCaps="false" />
+    <Button
+        android:id="@+id/bt_view_down"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="View setOnClick"
+        android:textAllCaps="false" />
 
-    </LinearLayout>
+    <Button
+        android:id="@+id/bt_group_down"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ViewGroup setOnClick"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/bt_intercept_all"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ViewGroup Intercept All"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/bt_intercept_down"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Group intercept down"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/bt_intercept_move"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Group intercept move"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/bt_intercept_up"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Group intercept up"
+        android:textAllCaps="false" />
 
 
-</com.lxk.motioneventdemo.TestFrameLayout>
+</LinearLayout>

@@ -3,7 +3,8 @@ package com.lxk.motioneventdemo;
 import android.view.MotionEvent;
 
 /**
- * created by 103style  2019/11/27 23:24
+ * @author https://github.com/103style
+ * @date 2019/11/27 23:24
  */
 public class EventHandler {
 
@@ -22,6 +23,8 @@ public class EventHandler {
             case MotionEvent.ACTION_CANCEL:
                 res = "ACTION_CANCEL";
                 break;
+            default:
+                res = String.valueOf(action);
 
         }
         return res;
