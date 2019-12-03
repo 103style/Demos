@@ -24,15 +24,25 @@ public boolean dispatchTouchEvent(MotionEvent ev) {
 
 这里我们先列出一些结论，然后下一步我们来验证它们：
 > 1、同一个事件序列是指从手指接触屏幕那一刻起，到离开屏幕结束，是以 `down` 事件开始， 中间有数量不定的 `move` 事件，最终以 `up` 事件结束。
+>
 > 2、正常情况下，一个事件序列只能被一个 `View` 拦截且消耗。这条原因可参考第三点。
+>
 > 3、某个 `View` 一旦决定拦截，那么这个事件序列都只能由他来处理（前提是事件能传到它），并且它的 `onInterceptTouchEvent` 不会在被调用。这点也很好理解，就是说一个 `View` 决定拦截一个事件后，那么系统会把这个事件序列内的其他事件都交给他来处理，因此就不会再去调用 `onInterceptTouchEvent` 来询问是否拦截了。
+>
 > 4、某个`View` 一旦开始处理事件，如果他不消耗 `ACTION_DOWN` 事件，那么同一序列的其他事件都不会交给它处理，并且事件将重新交给它的父元素去处理，即父元素的 `onTouchEvent` 会被调用。就像一件重要的事你没处理好，短期内上级就不敢再把重要的事情交给你做了。
+>
 > 5、如果 `View` 不消耗除 `ACTION_DOWN` 以外的事件，那么这个点击事件就会消失，此时父元素的 `onTouchEvent` 不会被调用，并且当前 `View` 能收到后续的事件，最终这些事件都交给 `Activity` 处理。
+>
 > 6、`ViewGroup` 默认不拦截任何事件。`ViewGroup` 源码中 `onInterceptTouchEvent` 默认返回 `false`。
+>
 > 7、`View` 没有 `onInterceptTouchEvent` 方法，一旦事件传给他，它的 `onTouchEvent` 就会被调用。
+>
 > 8、`View` 的 `onTouchEvent` 默认都会消耗事件（返回 `true`），除非它是不可点击的(`clickable` 和 `longClickable` 都为 `false`)。`View` 的 `longClickable` 属性默认为 `false`；`clickable` 分情况，比如 `Button` 默认为 `true`,`TextView` 默认为 `false`。
+>
 > 9、`View` 的 `enable` 属性不影响 `onTouchEvent` 的默认返回值，哪怕 `View` 是 `disable` 状态的，只要`clickable` 和 `longClickable` 其中一个为 `true`, 那么 `onTouchEvent` 就返回 `true`.
+>
 > 10、`onClick` 会触发的前提是当前 `View` 是可以点击的，并且收到了 `down` 和 `up` 事件。 
+>
 > 11、事件的传递过程是 **由外向内** 的，即事件总是先传递给父元素，然后再由父元素分发给子 `View`，通过 `requestDisallowInterceptTouchEvent(boolean)` 方法可以干预父元素的分发过程，**但是 ACTION_DOWN 除外**。 
 
 ---
