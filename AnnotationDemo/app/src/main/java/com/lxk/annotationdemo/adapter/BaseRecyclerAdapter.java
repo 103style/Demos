@@ -1,4 +1,4 @@
-package com.lxk.annotationdemo;
+package com.lxk.annotationdemo.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -23,21 +23,15 @@ public abstract class BaseRecyclerAdapter<Item, Holder extends RecyclerView.View
     Context mContext;
     private List<Item> mRecyclerItems;
 
-    public BaseRecyclerAdapter(Context context) {
+
+    BaseRecyclerAdapter(Context context) {
         this(context, null);
     }
 
-    public BaseRecyclerAdapter(Context context, List<Item> items) {
+    BaseRecyclerAdapter(Context context, List<Item> items) {
         this.mContext = context;
         this.mRecyclerItems = items;
     }
-
-    /**
-     * 创建相应视图
-     *
-     * @return 视图相关类
-     */
-    abstract Holder onCreateView(ViewGroup parent, int viewType);
 
     /***
      * 加载item布局
@@ -45,48 +39,28 @@ public abstract class BaseRecyclerAdapter<Item, Holder extends RecyclerView.View
      * @param parent 父容器
      * @return item布局
      */
-    protected View inflate(int layoutRes, ViewGroup parent) {
+    View inflate(int layoutRes, ViewGroup parent) {
         return LayoutInflater.from(mContext).inflate(layoutRes, parent, false);
     }
-
-
-    /**
-     * 绑定数据
-     *
-     * @param holder 视图相关类
-     * @param index  下标索引
-     */
-    abstract void onBindView(Holder holder, int index);
 
     @Override
     @NonNull
     final public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return onCreateView(parent, viewType);
+        return getViewHolder(parent, viewType);
     }
+
+    protected abstract Holder getViewHolder(ViewGroup parent, int viewType);
+
+    protected abstract void onBindData(@NonNull Holder holder, int position);
 
     @Override
     final public void onBindViewHolder(@NonNull Holder holder, int position) {
-        onBindView(holder, position);
-    }
-
-    @Override
-    final public void onBindViewHolder(@NonNull Holder holder, int position, @NonNull List<Object> payloads) {
-        super.onBindViewHolder(holder, position, payloads);
+        onBindData(holder, position);
     }
 
     @Override
     public int getItemCount() {
         return getItems().size();
-    }
-
-    /**
-     * 填充资源
-     *
-     * @param resource 布局的layout文件
-     * @return item布局
-     */
-    public View getInflateView(int resource) {
-        return LayoutInflater.from(mContext).inflate(resource, null);
     }
 
     /**

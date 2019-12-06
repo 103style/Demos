@@ -12,4 +12,12 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.SOURCE)
 @Target(ElementType.TYPE)
 public @interface RvAdapter {
+    /**
+     *
+     */
+    String adapterName();
+
+    String holderName();
+
+    int layoutId();
 }
