@@ -10,11 +10,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.lxk.annotationdemo.R;
 
+import static com.lxk.annotationdemo.adapter.TestAdapter.TestViewHolder;
+
 /**
  * @author https://github.com/103style
  * @date 2019/11/29 13:57
  */
-public class TestAdapter extends BaseRecyclerAdapter<String, TestAdapter.TestViewHolder> {
+public class TestAdapter extends BaseRecyclerAdapter<String, TestViewHolder> {
 
     public TestAdapter(Context context) {
         super(context);
