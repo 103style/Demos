@@ -1,12 +1,14 @@
 package com.lxk.motioneventdemo;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.lxk.motioneventdemo.test.TestActivity;
 
 /**
  * @author https://github.com/103style
@@ -18,9 +20,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private TestLinearLayout testLinearLayout;
     private TestView testView;
-
-    private Button btReset, btInterceptAll, btGroupSetOnClick, btViewSetOnClick, btInterceptDown,
-            btInterceptMove, btInterceptUp, btViewClickAble, btViewEnable;
 
     private View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
@@ -35,25 +34,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         testLinearLayout = findViewById(R.id.tll);
         testView = findViewById(R.id.tv);
-        btReset = findViewById(R.id.bt_reset);
-        btInterceptAll = findViewById(R.id.bt_intercept_all);
-        btGroupSetOnClick = findViewById(R.id.bt_group_down);
-        btViewSetOnClick = findViewById(R.id.bt_view_down);
-        btInterceptDown = findViewById(R.id.bt_intercept_down);
-        btInterceptMove = findViewById(R.id.bt_intercept_move);
-        btInterceptUp = findViewById(R.id.bt_intercept_up);
-        btViewClickAble = findViewById(R.id.bt_view_clickable);
-        btViewEnable = findViewById(R.id.bt_view_enable);
 
-        btReset.setOnClickListener(this);
-        btInterceptAll.setOnClickListener(this);
-        btGroupSetOnClick.setOnClickListener(this);
-        btViewSetOnClick.setOnClickListener(this);
-        btInterceptDown.setOnClickListener(this);
-        btInterceptMove.setOnClickListener(this);
-        btInterceptUp.setOnClickListener(this);
-        btViewClickAble.setOnClickListener(this);
-        btViewEnable.setOnClickListener(this);
+        findViewById(R.id.bt_reset).setOnClickListener(this);
+        findViewById(R.id.bt_view_down).setOnClickListener(this);
+        findViewById(R.id.bt_group_down).setOnClickListener(this);
+        findViewById(R.id.bt_intercept_all).setOnClickListener(this);
+        findViewById(R.id.bt_intercept_down).setOnClickListener(this);
+        findViewById(R.id.bt_intercept_move).setOnClickListener(this);
+        findViewById(R.id.bt_intercept_up).setOnClickListener(this);
+        findViewById(R.id.bt_view_clickable).setOnClickListener(this);
+        findViewById(R.id.bt_view_enable).setOnClickListener(this);
+
+        findViewById(R.id.bt_test).setOnClickListener(this);
     }
 
     @Override
@@ -113,6 +105,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.bt_view_enable:
                 testView.setEnabled(false);
                 break;
+            case R.id.bt_test:
+                startActivity(new Intent(this, TestActivity.class));
             default:
                 break;
         }
