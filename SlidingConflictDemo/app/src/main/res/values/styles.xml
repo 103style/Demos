@@ -8,4 +8,10 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="home_tab">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">@dimen/tab_height</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
 </resources>
