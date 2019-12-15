@@ -30,6 +30,12 @@ public class TestTextView extends AppCompatTextView {
     }
 
     @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        Log.e(TAG, System.currentTimeMillis() + "  dispatchTouchEvent: action = " + EventHandler.handlerEvent(event.getAction()));
+        return super.dispatchTouchEvent(event);
+    }
+
+    @Override
     public boolean onTouchEvent(MotionEvent event) {
         Log.e(TAG, System.currentTimeMillis() + "  onTouchEvent: action = " + EventHandler.handlerEvent(event.getAction()));
         return true;
