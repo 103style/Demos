@@ -51,7 +51,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         if (holder instanceof HeadHolder) {
             HeadHolder headHolder = (HeadHolder) holder;
             headHolder.recyclerView.setLayoutManager(new LinearLayoutManager(mContext, RecyclerView.HORIZONTAL, false));
-            headHolder.recyclerView.setAdapter(new MyItemRecyclerViewAdapter(DummyContent.ITEMS));
+            headHolder.recyclerView.setAdapter(new ItemViewAdapter(TestData.ITEMS));
         } else if (holder instanceof ItemHolder) {
             ItemHolder itemHolder = (ItemHolder) holder;
             itemHolder.mContentView.setText(mValues.get(position));

@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.lxk.slidingconflictdemo.DummyContent.DummyItem;
+import com.lxk.slidingconflictdemo.TestData.ItemBean;
 
 import java.util.List;
 
@@ -15,11 +15,11 @@ import java.util.List;
  * @author https://github.com/103style
  * @date 2019/12/11 22:03
  */
-public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecyclerViewAdapter.ViewHolder> {
+public class ItemViewAdapter extends RecyclerView.Adapter<ItemViewAdapter.ViewHolder> {
 
-    private final List<DummyItem> mValues;
+    private final List<ItemBean> mValues;
 
-    public MyItemRecyclerViewAdapter(List<DummyItem> items) {
+    public ItemViewAdapter(List<ItemBean> items) {
         mValues = items;
     }
 
@@ -47,7 +47,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         public View mView;
         public TextView mIdView;
         public TextView mContentView;
-        public DummyItem mItem;
+        public ItemBean mItem;
 
         public ViewHolder(View view) {
             super(view);
