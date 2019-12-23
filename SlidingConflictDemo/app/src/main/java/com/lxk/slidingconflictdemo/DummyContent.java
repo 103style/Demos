@@ -1,4 +1,4 @@
-package com.lxk.slidingconflictdemo.dummy;
+package com.lxk.slidingconflictdemo;
 
 import java.util.ArrayList;
 import java.util.HashMap;

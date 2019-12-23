@@ -1,4 +1,4 @@
-package com.lxk.slidingconflictdemo.recyclerview;
+package com.lxk.slidingconflictdemo;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,10 +9,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.lxk.slidingconflictdemo.R;
-import com.lxk.slidingconflictdemo.dummy.DummyContent;
-import com.lxk.slidingconflictdemo.home.MyItemRecyclerViewAdapter;
 
 import java.util.List;
 
@@ -55,7 +51,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         if (holder instanceof HeadHolder) {
             HeadHolder headHolder = (HeadHolder) holder;
             headHolder.recyclerView.setLayoutManager(new LinearLayoutManager(mContext, RecyclerView.HORIZONTAL, false));
-            headHolder.recyclerView.setAdapter(new MyItemRecyclerViewAdapter(DummyContent.ITEMS, null));
+            headHolder.recyclerView.setAdapter(new MyItemRecyclerViewAdapter(DummyContent.ITEMS));
         } else if (holder instanceof ItemHolder) {
             ItemHolder itemHolder = (ItemHolder) holder;
             itemHolder.mContentView.setText(mValues.get(position));

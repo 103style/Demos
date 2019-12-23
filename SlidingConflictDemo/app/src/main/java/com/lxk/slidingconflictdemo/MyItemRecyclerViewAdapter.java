@@ -1,4 +1,4 @@
-package com.lxk.slidingconflictdemo.home;
+package com.lxk.slidingconflictdemo;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,11 +7,10 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.lxk.slidingconflictdemo.R;
-import com.lxk.slidingconflictdemo.home.ItemFragment.OnListFragmentInteractionListener;
-import com.lxk.slidingconflictdemo.dummy.DummyContent.DummyItem;
+import com.lxk.slidingconflictdemo.DummyContent.DummyItem;
 
 import java.util.List;
+
 /**
  * @author https://github.com/103style
  * @date 2019/12/11 22:03
@@ -19,11 +18,9 @@ import java.util.List;
 public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecyclerViewAdapter.ViewHolder> {
 
     private final List<DummyItem> mValues;
-    private final OnListFragmentInteractionListener mListener;
 
-    public MyItemRecyclerViewAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener) {
+    public MyItemRecyclerViewAdapter(List<DummyItem> items) {
         mValues = items;
-        mListener = listener;
     }
 
     @Override
@@ -37,16 +34,8 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
         holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+        holder.mContentView.setText("horizonScroll " + mValues.get(position).content);
 
-        holder.mView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (null != mListener) {
-                    mListener.onListFragmentInteraction(holder.mItem);
-                }
-            }
-        });
     }
 
     @Override
