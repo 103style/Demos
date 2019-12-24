@@ -12,27 +12,41 @@ import android.widget.Scroller;
  * @author https://github.com/103style
  * @date 2019/12/23 22:20
  */
-public class HorizontalScrollView extends ViewGroup {
-
+public class TestViewPager extends ViewGroup {
+    /**
+     * 平滑滑动用
+     */
     private Scroller scroller;
+    /**
+     * 计算滑动速度用
+     */
     private VelocityTracker velocityTracker;
+    /**
+     * 记录上一次触摸时间的位置
+     */
     private float lastX, lastY, lastInterceptX, lastInterceptY;
-    private int mChildWidth, mChildHeight;
-    private int mChildSize;
-    private onIndexChangeListener onIndexChangeListener;
+    /**
+     * 子控件的宽高和个数
+     */
+    private int mChildWidth, mChildHeight, mChildSize;
+
+    /**
+     * 当前的子View索引变化
+     */
+    private OnChangeListener onChangeListener;
+
+    /**
+     * 当前的子View索引
+     */
     private int childIndex = 0;
 
-    public HorizontalScrollView(Context context, AttributeSet attrs) {
+    public TestViewPager(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public HorizontalScrollView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public TestViewPager(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context);
-    }
-
-    public void setOnIndexChangeListener(HorizontalScrollView.onIndexChangeListener onIndexChangeListener) {
-        this.onIndexChangeListener = onIndexChangeListener;
     }
 
     private void init(Context context) {
@@ -40,23 +54,25 @@ public class HorizontalScrollView extends ViewGroup {
         velocityTracker = VelocityTracker.obtain();
     }
 
+    /**
+     * 设置子View索引变化回调
+     */
+    public void setOnChangeListener(OnChangeListener onChangeListener) {
+        this.onChangeListener = onChangeListener;
+    }
+
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int widthSize = MeasureSpec.getSize(widthMeasureSpec);
-        int widthMode = MeasureSpec.getMode(widthMeasureSpec);
         int heightSize = MeasureSpec.getSize(heightMeasureSpec);
-        int heightMode = MeasureSpec.getMode(heightMeasureSpec);
 
         //默认都一样大 占满父布局
         mChildSize = getChildCount();
-        for (int i = 0; i < mChildSize; i++) {
-            View view = getChildAt(i);
-            measureChild(view, widthMeasureSpec, heightMeasureSpec);
-            mChildWidth = Math.max(view.getMeasuredWidth(), mChildWidth);
-            mChildHeight = Math.max(view.getMeasuredHeight(), mChildHeight);
-        }
-        setMeasuredDimension(widthMode == MeasureSpec.EXACTLY ? widthSize : mChildWidth,
-                heightMode == MeasureSpec.EXACTLY ? heightSize : mChildHeight);
+        mChildWidth = widthSize;
+        mChildHeight = heightSize;
+
+        //设置测量宽高
+        setMeasuredDimension(widthSize, heightSize);
     }
 
     @Override
@@ -64,6 +80,7 @@ public class HorizontalScrollView extends ViewGroup {
         int left = 0;
         for (int i = 0; i < getChildCount(); i++) {
             View view = getChildAt(i);
+            //从左到右依次布局
             view.layout(left, 0, left + mChildWidth, mChildHeight);
             left += mChildWidth;
         }
@@ -115,23 +132,32 @@ public class HorizontalScrollView extends ViewGroup {
                 break;
             case MotionEvent.ACTION_MOVE:
                 int dx = (int) (x - lastX);
+                //跟随手指滑动
                 scrollBy(-dx, 0);
                 break;
             case MotionEvent.ACTION_UP:
                 int scrollX = getScrollX();
+                //计算1s内的速度
                 velocityTracker.computeCurrentVelocity(1000);
+                //获取水平的滑动速度
                 float xVelocity = velocityTracker.getXVelocity();
+
                 if (Math.abs(xVelocity) > 50) {
                     childIndex = xVelocity > 0 ? childIndex - 1 : childIndex + 1;
                 } else {
                     childIndex = (scrollX + mChildWidth / 2) / mChildWidth;
                 }
                 childIndex = Math.max(0, Math.min(childIndex, mChildSize - 1));
-                if (onIndexChangeListener != null) {
-                    onIndexChangeListener.indexChange(childIndex);
+
+                if (onChangeListener != null) {
+                    onChangeListener.indexChange(childIndex);
                 }
+                //计算还需滑动到整个child的偏移
                 int sx = childIndex * mChildWidth - scrollX;
+                //通过Scroller来平滑滑动
                 smoothScrollBy(sx);
+
+                //清除
                 velocityTracker.clear();
                 break;
             default:
@@ -142,6 +168,11 @@ public class HorizontalScrollView extends ViewGroup {
         return true;
     }
 
+    /**
+     * 平滑滑动
+     *
+     * @param dx
+     */
     private void smoothScrollBy(int dx) {
         scroller.startScroll(getScrollX(), 0, dx, 0, 500);
         invalidate();
@@ -155,17 +186,25 @@ public class HorizontalScrollView extends ViewGroup {
         }
     }
 
+    /**
+     * 更新当前可见子View的索引
+     */
     public void updateChildIndex(int pos) {
         if (!scroller.isFinished()) {
             scroller.abortAnimation();
         }
         smoothScrollBy(pos * mChildWidth - getScrollX());
-        if (onIndexChangeListener != null) {
-            onIndexChangeListener.indexChange(pos);
+        if (onChangeListener != null) {
+            onChangeListener.indexChange(pos);
         }
     }
 
-    public interface onIndexChangeListener {
+    public interface OnChangeListener {
+        /**
+         * 索引变化
+         *
+         * @param index 索引
+         */
         void indexChange(int index);
     }
 

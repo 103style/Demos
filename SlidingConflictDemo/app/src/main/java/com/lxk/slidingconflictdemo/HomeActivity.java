@@ -18,12 +18,23 @@ import java.util.List;
  */
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
 
+    /**
+     * 底部三个按钮
+     */
     private AppCompatButton tab1, tab2, tab3;
-
-    private HorizontalScrollView horizontalScrollView;
-
+    /**
+     * 水平滑动的测试viewpager
+     */
+    private TestViewPager testViewPager;
+    /**
+     * 三个子RecyclerView
+     */
     private RecyclerView rv1, rv2, rv3;
-    private int index = 0, count = 50;
+
+    /**
+     * 测试数据的起始值和个数
+     */
+    private int start = 0, count = 50;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +45,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void initView() {
-        horizontalScrollView = findViewById(R.id.hsv_test);
+        testViewPager = findViewById(R.id.tvp_test);
 
         rv1 = findViewById(R.id.rv1);
         rv2 = findViewById(R.id.rv2);
@@ -54,8 +65,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         setupRv(rv1);
         setupRv(rv2);
         setupRv(rv3);
-        horizontalScrollView.setOnIndexChangeListener(
-                new HorizontalScrollView.onIndexChangeListener() {
+        testViewPager.setOnChangeListener(
+                new TestViewPager.OnChangeListener() {
                     @Override
                     public void indexChange(int index) {
                         changeTabStatue(index);
@@ -66,15 +77,18 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private void setupRv(RecyclerView recyclerView) {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         List<String> list = new ArrayList<>();
-        for (int i = index; i < count; i++) {
+        for (int i = start; i < count; i++) {
             list.add(String.valueOf(i));
         }
         recyclerView.setAdapter(new RecyclerViewAdapter(this, list));
         updateData();
     }
 
+    /**
+     * 更新数据
+     */
     private void updateData() {
-        index += 50;
+        start += 50;
         count += 50;
     }
 
@@ -110,7 +124,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 pos = 0;
                 break;
         }
-        horizontalScrollView.updateChildIndex(pos);
+        testViewPager.updateChildIndex(pos);
     }
 
 }

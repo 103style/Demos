@@ -3,8 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.lxk.slidingconflictdemo.HorizontalScrollView
-        android:id="@+id/hsv_test"
+    <com.lxk.slidingconflictdemo.TestViewPager
+        android:id="@+id/tvp_test"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="@dimen/tab_layout_height">
@@ -24,7 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-    </com.lxk.slidingconflictdemo.HorizontalScrollView>
+    </com.lxk.slidingconflictdemo.TestViewPager>
 
     <View
         android:layout_width="match_parent"
