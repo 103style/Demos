@@ -44,6 +44,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public int getItemViewType(int position) {
         return position % 5 == 0 ? TYPE_HEADER : TYPE_ITEM;
+//        return TYPE_ITEM;
     }
 
     @Override
@@ -73,7 +74,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     public class HeadHolder extends ViewHolder {
-        public RecyclerView recyclerView;
+        public ItemRecyclerView recyclerView;
 
         public HeadHolder(View view) {
             super(view);

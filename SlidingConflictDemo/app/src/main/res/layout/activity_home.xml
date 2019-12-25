@@ -9,17 +9,17 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="@dimen/tab_layout_height">
 
-        <androidx.recyclerview.widget.RecyclerView
+        <com.lxk.slidingconflictdemo.TestRecyclerView
             android:id="@+id/rv1"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <androidx.recyclerview.widget.RecyclerView
+        <com.lxk.slidingconflictdemo.TestRecyclerView
             android:id="@+id/rv2"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <androidx.recyclerview.widget.RecyclerView
+        <com.lxk.slidingconflictdemo.TestRecyclerView
             android:id="@+id/rv3"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
