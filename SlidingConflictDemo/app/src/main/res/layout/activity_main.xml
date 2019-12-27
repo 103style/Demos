@@ -18,4 +18,5 @@
         android:text="竖直和竖直的滑动冲突示例"
         android:textAllCaps="false" />
 
+
 </LinearLayout>

@@ -12,7 +12,7 @@ import android.widget.Scroller;
  * @author https://github.com/103style
  * @date 2019/12/23 22:20
  */
-public class TestViewPager extends ViewGroup {
+public class HorizontalScrollerView extends ViewGroup {
     /**
      * 平滑滑动用
      */
@@ -40,11 +40,11 @@ public class TestViewPager extends ViewGroup {
      */
     private int childIndex = 0;
 
-    public TestViewPager(Context context, AttributeSet attrs) {
+    public HorizontalScrollerView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public TestViewPager(Context context, AttributeSet attrs, int defStyleAttr) {
+    public HorizontalScrollerView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context);
     }
@@ -68,6 +68,9 @@ public class TestViewPager extends ViewGroup {
 
         //默认都一样大 占满父布局
         mChildSize = getChildCount();
+        for (int i = 0; i < mChildSize; i++) {
+            measureChild(getChildAt(i), widthMeasureSpec, heightMeasureSpec);
+        }
         mChildWidth = widthSize;
         mChildHeight = heightSize;
 
@@ -87,57 +90,57 @@ public class TestViewPager extends ViewGroup {
     }
 
     //外部拦截法
-//    @Override
-//    public boolean onInterceptTouchEvent(MotionEvent ev) {
-//        boolean intercept;
-//        float x = ev.getX();
-//        float y = ev.getY();
-//        switch (ev.getAction()) {
-//            case MotionEvent.ACTION_DOWN:
-//                intercept = false;
-//                if (!scroller.isFinished()) {
-//                    scroller.abortAnimation();
-//                    intercept = true;
-//                }
-//                break;
-//            case MotionEvent.ACTION_MOVE:
-//                float dx = x - lastInterceptX;
-//                float dy = y - lastInterceptY;
-//                //水平滑动距离大于竖直滑动
-//                intercept = Math.abs(dx) > Math.abs(dy);
-//                break;
-//            case MotionEvent.ACTION_UP:
-//            default:
-//                intercept = false;
-//                break;
-//        }
-//        lastX = x;
-//        lastY = y;
-//
-//        lastInterceptX = x;
-//        lastInterceptY = y;
-//
-////        return false;
-//        return intercept;
-//    }
-
-
-    // 内部拦截法
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
+        boolean intercept;
+        float x = ev.getX();
+        float y = ev.getY();
         switch (ev.getAction()) {
             case MotionEvent.ACTION_DOWN:
+                intercept = false;
                 if (!scroller.isFinished()) {
                     scroller.abortAnimation();
-                    return true;
+                    intercept = true;
                 }
-                return false;
+                break;
             case MotionEvent.ACTION_MOVE:
+                float dx = x - lastInterceptX;
+                float dy = y - lastInterceptY;
+                //水平滑动距离大于竖直滑动
+                intercept = Math.abs(dx) > Math.abs(dy) + 50;
+                break;
             case MotionEvent.ACTION_UP:
             default:
-                return true;
+                intercept = false;
+                break;
         }
+        lastX = x;
+        lastY = y;
+
+        lastInterceptX = x;
+        lastInterceptY = y;
+
+//        return false;
+        return intercept;
     }
+
+
+//    // 内部拦截法
+//    @Override
+//    public boolean onInterceptTouchEvent(MotionEvent ev) {
+//        switch (ev.getAction()) {
+//            case MotionEvent.ACTION_DOWN:
+//                if (!scroller.isFinished()) {
+//                    scroller.abortAnimation();
+//                    return true;
+//                }
+//                return false;
+//            case MotionEvent.ACTION_MOVE:
+//            case MotionEvent.ACTION_UP:
+//            default:
+//                return true;
+//        }
+//    }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {

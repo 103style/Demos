@@ -2,14 +2,10 @@ package com.lxk.slidingconflictdemo;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author https://github.com/103style
@@ -25,16 +21,16 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     /**
      * 水平滑动的测试viewpager
      */
-    private TestViewPager testViewPager;
+    private HorizontalScrollerView horizontalScrollerView;
     /**
      * 三个子RecyclerView
      */
-    private RecyclerView rv1, rv2, rv3;
+    private VerticalScrollerView rsv1, rsv2, rsv3;
 
     /**
      * 测试数据的起始值和个数
      */
-    private int start = 0, count = 50;
+    private int start = 0, count = 30;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,11 +41,11 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void initView() {
-        testViewPager = findViewById(R.id.tvp_test);
+        horizontalScrollerView = findViewById(R.id.tvp_test);
 
-        rv1 = findViewById(R.id.rv1);
-        rv2 = findViewById(R.id.rv2);
-        rv3 = findViewById(R.id.rv3);
+        rsv1 = findViewById(R.id.rsv1);
+        rsv2 = findViewById(R.id.rsv2);
+        rsv3 = findViewById(R.id.rsv3);
 
         tab1 = findViewById(R.id.tab_1);
         tab1.setSelected(true);
@@ -62,11 +58,11 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void initSetup() {
-        setupRv(rv1);
-        setupRv(rv2);
-        setupRv(rv3);
-        testViewPager.setOnChangeListener(
-                new TestViewPager.OnChangeListener() {
+        setupRsv(rsv1);
+        setupRsv(rsv2);
+        setupRsv(rsv3);
+        horizontalScrollerView.setOnChangeListener(
+                new HorizontalScrollerView.OnChangeListener() {
                     @Override
                     public void indexChange(int index) {
                         changeTabStatue(index);
@@ -74,13 +70,15 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 });
     }
 
-    private void setupRv(RecyclerView recyclerView) {
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        List<String> list = new ArrayList<>();
+    private void setupRsv(VerticalScrollerView verticalScrollerView) {
+        ViewGroup.MarginLayoutParams layoutParams = new ViewGroup.MarginLayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        layoutParams.topMargin = 32;
         for (int i = start; i < count; i++) {
-            list.add(String.valueOf(i));
+            AppCompatButton button = new AppCompatButton(this);
+            button.setLayoutParams(layoutParams);
+            button.setText(String.valueOf(i));
+            verticalScrollerView.addView(button);
         }
-        recyclerView.setAdapter(new RecyclerViewAdapter(this, list));
         updateData();
     }
 
@@ -124,7 +122,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 pos = 0;
                 break;
         }
-        testViewPager.updateChildIndex(pos);
+        horizontalScrollerView.updateChildIndex(pos);
     }
 
 }
