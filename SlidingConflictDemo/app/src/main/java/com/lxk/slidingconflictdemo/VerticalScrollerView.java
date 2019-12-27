@@ -93,20 +93,28 @@ public class VerticalScrollerView extends ViewGroup {
         }
     }
 
-
     @Override
-    public boolean onInterceptTouchEvent(MotionEvent event) {
-        float x = event.getX();
-        float y = event.getY();
-        if (event.getAction() == MotionEvent.ACTION_MOVE) {
-            if (Math.abs(y - lastY) > Math.abs(x - lastY)) {
-                return true;
-            }
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        float x = ev.getX();
+        float y = ev.getY();
+        switch (ev.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                getParent().requestDisallowInterceptTouchEvent(true);
+                break;
+            case MotionEvent.ACTION_MOVE:
+                float dx = x - lastX;
+                float dy = y - lastY;
+                if (Math.abs(dx) > Math.abs(dy) + 50) {
+                    getParent().requestDisallowInterceptTouchEvent(false);
+                }
+                break;
+            case MotionEvent.ACTION_UP:
+            default:
+                break;
         }
-        lastX = x;
-        lastY = y;
-        return super.onInterceptTouchEvent(event);
+        return super.dispatchTouchEvent(ev);
     }
+
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {

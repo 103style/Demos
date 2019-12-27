@@ -89,58 +89,58 @@ public class HorizontalScrollerView extends ViewGroup {
         }
     }
 
-    //外部拦截法
-    @Override
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
-        boolean intercept;
-        float x = ev.getX();
-        float y = ev.getY();
-        switch (ev.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                intercept = false;
-                if (!scroller.isFinished()) {
-                    scroller.abortAnimation();
-                    intercept = true;
-                }
-                break;
-            case MotionEvent.ACTION_MOVE:
-                float dx = x - lastInterceptX;
-                float dy = y - lastInterceptY;
-                //水平滑动距离大于竖直滑动
-                intercept = Math.abs(dx) > Math.abs(dy) + 50;
-                break;
-            case MotionEvent.ACTION_UP:
-            default:
-                intercept = false;
-                break;
-        }
-        lastX = x;
-        lastY = y;
-
-        lastInterceptX = x;
-        lastInterceptY = y;
-
-//        return false;
-        return intercept;
-    }
-
-
-//    // 内部拦截法
+//    //外部拦截法
 //    @Override
 //    public boolean onInterceptTouchEvent(MotionEvent ev) {
+//        boolean intercept;
+//        float x = ev.getX();
+//        float y = ev.getY();
 //        switch (ev.getAction()) {
 //            case MotionEvent.ACTION_DOWN:
+//                intercept = false;
 //                if (!scroller.isFinished()) {
 //                    scroller.abortAnimation();
-//                    return true;
+//                    intercept = true;
 //                }
-//                return false;
+//                break;
 //            case MotionEvent.ACTION_MOVE:
+//                float dx = x - lastInterceptX;
+//                float dy = y - lastInterceptY;
+//                //水平滑动距离大于竖直滑动
+//                intercept = Math.abs(dx) > Math.abs(dy) + 50;
+//                break;
 //            case MotionEvent.ACTION_UP:
 //            default:
-//                return true;
+//                intercept = false;
+//                break;
 //        }
+//        lastX = x;
+//        lastY = y;
+//
+//        lastInterceptX = x;
+//        lastInterceptY = y;
+//
+////        return false;
+//        return intercept;
 //    }
+
+
+    // 内部拦截法
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        switch (ev.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                if (!scroller.isFinished()) {
+                    scroller.abortAnimation();
+                    return true;
+                }
+                return false;
+            case MotionEvent.ACTION_MOVE:
+            case MotionEvent.ACTION_UP:
+            default:
+                return true;
+        }
+    }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {

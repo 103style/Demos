@@ -3,28 +3,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.lxk.slidingconflictdemo.HorizontalScrollerView
-        android:id="@+id/tvp_test"
+<com.lxk.slidingconflictdemo.HorizontalScrollerView
+    android:id="@+id/tvp_test"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="@dimen/tab_layout_height">
+
+    <com.lxk.slidingconflictdemo.VerticalScrollerView
+        android:id="@+id/rsv1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="@dimen/tab_layout_height">
+        android:layout_height="match_parent" />
 
-        <com.lxk.slidingconflictdemo.VerticalScrollerView
-            android:id="@+id/rsv1"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+    <com.lxk.slidingconflictdemo.VerticalScrollerView
+        android:id="@+id/rsv2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
-        <com.lxk.slidingconflictdemo.VerticalScrollerView
-            android:id="@+id/rsv2"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+    <com.lxk.slidingconflictdemo.VerticalScrollerView
+        android:id="@+id/rsv3"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
-        <com.lxk.slidingconflictdemo.VerticalScrollerView
-            android:id="@+id/rsv3"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-    </com.lxk.slidingconflictdemo.HorizontalScrollerView>
+</com.lxk.slidingconflictdemo.HorizontalScrollerView>
 
     <View
         android:layout_width="match_parent"
