@@ -3,7 +3,6 @@ package com.lxk.slidingconflictdemo;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Scroller;
@@ -20,7 +19,6 @@ public class VerticalScrollerView extends ViewGroup {
      */
     private float x, y, lastX, lastY;
     private Scroller scroller;
-    private VelocityTracker velocityTracker;
 
     private int mHeight, mContentHeight;
 
@@ -35,7 +33,6 @@ public class VerticalScrollerView extends ViewGroup {
 
     private void init(Context context) {
         scroller = new Scroller(context);
-        velocityTracker = VelocityTracker.obtain();
     }
 
     @Override
@@ -97,14 +94,8 @@ public class VerticalScrollerView extends ViewGroup {
     public boolean dispatchTouchEvent(MotionEvent ev) {
         x = ev.getX();
         y = ev.getY();
-        switch (ev.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                getParent().requestDisallowInterceptTouchEvent(true);
-                break;
-            case MotionEvent.ACTION_MOVE:
-            case MotionEvent.ACTION_UP:
-            default:
-                break;
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+            getParent().requestDisallowInterceptTouchEvent(true);
         }
         boolean res = super.dispatchTouchEvent(ev);
         lastX = x;
@@ -125,7 +116,7 @@ public class VerticalScrollerView extends ViewGroup {
                 int dy = (int) (y - lastY);
                 //跟随手指滑动
                 scrollBy(0, -dy);
-
+                //在水平滑动距离 大于 竖直滑动时 允许 父View拦截
                 if (Math.abs(dx) > Math.abs(dy) + 50) {
                     getParent().requestDisallowInterceptTouchEvent(false);
                 }

@@ -117,12 +117,14 @@ public class ItemHorizontalScrollerView extends ViewGroup {
             case MotionEvent.ACTION_MOVE:
                 int dx = (int) (x - lastX);
                 if (scrollX <= 0 && dx > 0) {
+                    //在最左边并且左滑时
                     if (scrollX == 0) {
                         dx = 0;
                     } else {
                         dx += scrollX;
                     }
                 } else if (scrollX + mWidth >= mContentWidth && dx < 0) {
+                    //在最右边并且右滑时
                     if (scrollX + mWidth >= mContentWidth) {
                         dx = 0;
                     } else {
@@ -131,6 +133,7 @@ public class ItemHorizontalScrollerView extends ViewGroup {
                 } else {
                     used = true;
                 }
+
                 //跟随手指滑动
                 scrollBy(-dx, 0);
 
