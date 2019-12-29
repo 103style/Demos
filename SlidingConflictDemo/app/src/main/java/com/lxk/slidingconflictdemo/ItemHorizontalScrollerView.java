@@ -3,39 +3,41 @@ package com.lxk.slidingconflictdemo;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Scroller;
 
 /**
  * @author https://github.com/103style
- * @date 2019/12/27 15:49
+ * @date 2019/12/29 20:15
  * <p>
- * 可以竖直滑动的view
+ * 竖直滑动的View里面添加的水平滑动的View
  */
-public class VerticalScrollerView extends ViewGroup {
+public class ItemHorizontalScrollerView extends ViewGroup {
     /**
-     * 记录上一次触摸时间的位置
+     * 平滑滑动用
      */
-    private float x, y, lastX, lastY;
     private Scroller scroller;
-    private VelocityTracker velocityTracker;
+    /**
+     * 最后一次事件点击的位置
+     */
+    private float lastX, lastY;
+    /**
+     * 布局的宽度 和  内容的宽度
+     */
+    private int mWidth, mContentWidth;
 
-    private int mHeight, mContentHeight;
+    public ItemHorizontalScrollerView(Context context) {
+        this(context, null);
+    }
 
-    public VerticalScrollerView(Context context, AttributeSet attrs) {
+    public ItemHorizontalScrollerView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public VerticalScrollerView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public ItemHorizontalScrollerView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(context);
-    }
-
-    private void init(Context context) {
         scroller = new Scroller(context);
-        velocityTracker = VelocityTracker.obtain();
     }
 
     @Override
@@ -60,8 +62,9 @@ public class VerticalScrollerView extends ViewGroup {
         int heightSize = MeasureSpec.getSize(heightMeasureSpec);
         int heightMode = MeasureSpec.getMode(heightMeasureSpec);
 
-        int contentHeight = 0;
-        int contentMaxWidth = 0;
+        mWidth = widthSize;
+        mContentWidth = 0;
+        int contentMaxHeight = 0;
         for (int i = 0; i < getChildCount(); i++) {
             View child = getChildAt(i);
             measureChild(child, widthMeasureSpec, heightMeasureSpec);
@@ -69,75 +72,80 @@ public class VerticalScrollerView extends ViewGroup {
             MarginLayoutParams layoutParams = (MarginLayoutParams) child.getLayoutParams();
             int cWidth = layoutParams.getMarginEnd() + layoutParams.getMarginStart() + child.getMeasuredWidth();
             int cHeight = layoutParams.topMargin + layoutParams.bottomMargin + child.getMeasuredHeight();
-            contentMaxWidth = Math.max(cWidth, contentMaxWidth);
-            contentHeight += cHeight;
+            contentMaxHeight = Math.max(cHeight, contentMaxHeight);
+            mContentWidth += cWidth;
         }
-        //设置测量宽高
-        mHeight = heightSize;
-        mContentHeight = contentHeight;
-        setMeasuredDimension(widthMode == MeasureSpec.EXACTLY ? widthSize : contentMaxWidth,
-                heightMode == MeasureSpec.EXACTLY ? heightSize : contentHeight);
+        setMeasuredDimension(widthMode == MeasureSpec.EXACTLY ? widthSize : mContentWidth,
+                heightMode == MeasureSpec.EXACTLY ? heightSize : contentMaxHeight);
     }
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        int top = 0;
+        int left = 0;
         for (int i = 0; i < getChildCount(); i++) {
             View view = getChildAt(i);
             MarginLayoutParams layoutParams = (MarginLayoutParams) view.getLayoutParams();
             //从上到下依次布局
-            view.layout(layoutParams.leftMargin, layoutParams.topMargin + top,
-                    layoutParams.leftMargin + view.getMeasuredWidth(),
-                    layoutParams.topMargin + top + view.getMeasuredHeight());
-            top += view.getMeasuredHeight() + layoutParams.bottomMargin + layoutParams.topMargin;
+            view.layout(left + layoutParams.leftMargin, layoutParams.topMargin,
+                    left + layoutParams.leftMargin + view.getMeasuredWidth(),
+                    layoutParams.topMargin + view.getMeasuredHeight());
+            left += view.getWidth() + layoutParams.leftMargin + layoutParams.rightMargin;
         }
     }
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        x = ev.getX();
-        y = ev.getY();
-        switch (ev.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                getParent().requestDisallowInterceptTouchEvent(true);
-                break;
-            case MotionEvent.ACTION_MOVE:
-            case MotionEvent.ACTION_UP:
-            default:
-                break;
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+            getParent().requestDisallowInterceptTouchEvent(true);
         }
-        boolean res = super.dispatchTouchEvent(ev);
-        lastX = x;
-        lastY = y;
-        return res;
+        return super.dispatchTouchEvent(ev);
     }
+
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        float x = event.getX();
+        int scrollX = getScrollX();
+        boolean used = false;
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 if (!scroller.isFinished()) {
                     scroller.abortAnimation();
                 }
+                used = true;
                 break;
             case MotionEvent.ACTION_MOVE:
                 int dx = (int) (x - lastX);
-                int dy = (int) (y - lastY);
+                if (scrollX <= 0 && dx > 0) {
+                    if (scrollX == 0) {
+                        dx = 0;
+                    } else {
+                        dx += scrollX;
+                    }
+                } else if (scrollX + mWidth >= mContentWidth && dx < 0) {
+                    if (scrollX + mWidth >= mContentWidth) {
+                        dx = 0;
+                    } else {
+                        dx += scrollX + mWidth - mContentWidth;
+                    }
+                } else {
+                    used = true;
+                }
                 //跟随手指滑动
-                scrollBy(0, -dy);
+                scrollBy(-dx, 0);
 
-                if (Math.abs(dx) > Math.abs(dy) + 50) {
+                //在不需要在左滑和右滑的时候 事件交给父控件处理
+                if (scrollX == 0 || scrollX + mWidth == mContentWidth) {
                     getParent().requestDisallowInterceptTouchEvent(false);
                 }
                 break;
             case MotionEvent.ACTION_UP:
-                int scrollY = getScrollY();
-                if (scrollY < 0) {
-                    smoothScrollBy(-scrollY);
-                } else if (mContentHeight <= mHeight) {
-                    smoothScrollBy(-scrollY);
-                } else if (mContentHeight - scrollY < mHeight) {
-                    smoothScrollBy(mContentHeight - scrollY - mHeight);
+                if (scrollX < 0) {
+                    smoothScrollBy(-scrollX);
+                } else if (mContentWidth <= mWidth) {
+                    smoothScrollBy(-scrollX);
+                } else if (mContentWidth - scrollX < mWidth) {
+                    smoothScrollBy(mContentWidth - scrollX - mWidth);
                 } else {
                     //惯性滑动效果
                 }
@@ -145,16 +153,17 @@ public class VerticalScrollerView extends ViewGroup {
             default:
                 break;
         }
-        return true;
+        lastX = x;
+        return used;
     }
 
     /**
      * 平滑滑动
      *
-     * @param dy
+     * @param dx
      */
-    private void smoothScrollBy(int dy) {
-        scroller.startScroll(0, getScrollY(), 0, dy, 500);
+    private void smoothScrollBy(int dx) {
+        scroller.startScroll(getScrollX(), 0, dx, 0, 500);
         invalidate();
     }
 
@@ -165,6 +174,4 @@ public class VerticalScrollerView extends ViewGroup {
             postInvalidate();
         }
     }
-
-
 }

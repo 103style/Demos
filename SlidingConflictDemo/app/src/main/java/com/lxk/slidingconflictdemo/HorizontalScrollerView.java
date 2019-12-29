@@ -24,7 +24,7 @@ public class HorizontalScrollerView extends ViewGroup {
     /**
      * 记录上一次触摸时间的位置
      */
-    private float lastX, lastY, lastInterceptX, lastInterceptY;
+    private float x, y, lastX, lastY, lastInterceptX, lastInterceptY;
     /**
      * 子控件的宽高和个数
      */
@@ -143,10 +143,18 @@ public class HorizontalScrollerView extends ViewGroup {
     }
 
     @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        x = ev.getX();
+        y = ev.getY();
+        boolean res = super.dispatchTouchEvent(ev);
+        lastX = x;
+        lastY = y;
+        return res;
+    }
+
+    @Override
     public boolean onTouchEvent(MotionEvent event) {
         velocityTracker.addMovement(event);
-        float x = event.getX();
-        float y = event.getY();
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 if (!scroller.isFinished()) {
@@ -165,7 +173,7 @@ public class HorizontalScrollerView extends ViewGroup {
                 //获取水平的滑动速度
                 float xVelocity = velocityTracker.getXVelocity();
 
-                if (Math.abs(xVelocity) > 50) {
+                if (Math.abs(xVelocity) > 100) {
                     childIndex = xVelocity > 0 ? childIndex - 1 : childIndex + 1;
                 } else {
                     childIndex = (scrollX + mChildWidth / 2) / mChildWidth;
@@ -186,8 +194,6 @@ public class HorizontalScrollerView extends ViewGroup {
             default:
                 break;
         }
-        lastX = x;
-        lastY = y;
         return true;
     }
 

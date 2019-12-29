@@ -19,11 +19,11 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
      */
     private AppCompatButton tab1, tab2, tab3;
     /**
-     * 水平滑动的测试viewpager
+     * 水平滑动的 HorizontalScrollerView
      */
     private HorizontalScrollerView horizontalScrollerView;
     /**
-     * 三个子RecyclerView
+     * 三个子 VerticalScrollerView
      */
     private VerticalScrollerView rsv1, rsv2, rsv3;
 
@@ -61,25 +61,45 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         setupRsv(rsv1);
         setupRsv(rsv2);
         setupRsv(rsv3);
-        horizontalScrollerView.setOnChangeListener(
-                new HorizontalScrollerView.OnChangeListener() {
-                    @Override
-                    public void indexChange(int index) {
-                        changeTabStatue(index);
-                    }
-                });
+        horizontalScrollerView.setOnChangeListener(this::changeTabStatue);
     }
 
+    /**
+     * 给 VerticalScrollerView 添加子View
+     */
     private void setupRsv(VerticalScrollerView verticalScrollerView) {
+
+        addItemHorizontalScrollerView(verticalScrollerView);
+
         ViewGroup.MarginLayoutParams layoutParams = new ViewGroup.MarginLayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         layoutParams.topMargin = 32;
-        for (int i = start; i < count; i++) {
+        for (int i = start; i < count - 1; i++) {
             AppCompatButton button = new AppCompatButton(this);
             button.setLayoutParams(layoutParams);
             button.setText(String.valueOf(i));
             verticalScrollerView.addView(button);
         }
         updateData();
+    }
+
+    /**
+     * 添加可以水平滑动的子View  ItemHorizontalScrollerView
+     */
+    private void addItemHorizontalScrollerView(VerticalScrollerView verticalScrollerView) {
+        ViewGroup.MarginLayoutParams layoutParams = new ViewGroup.MarginLayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        ItemHorizontalScrollerView itemHorizontalScrollerView = new ItemHorizontalScrollerView(this);
+        itemHorizontalScrollerView.setLayoutParams(layoutParams);
+        int itemCount = 10;
+        ViewGroup.MarginLayoutParams itemLP = new ViewGroup.MarginLayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        for (int i = 0; i < itemCount; i++) {
+            AppCompatButton button = new AppCompatButton(this);
+            button.setLayoutParams(itemLP);
+            button.setText(String.valueOf(i));
+            button.setClickable(false);
+            button.setLongClickable(false);
+            itemHorizontalScrollerView.addView(button);
+        }
+        verticalScrollerView.addView(itemHorizontalScrollerView);
     }
 
     /**
