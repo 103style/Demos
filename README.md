@@ -1,6 +1,6 @@
 # Android Demos
 
-觉得有用的话可以点下右上方的 star 哦:blush:！
+觉得有用的话可以点下右上方的 star 哦！:blush:
 
 * [Android View滑动Demo](https://github.com/103style/Demos/tree/master/ViewDemo)
 
