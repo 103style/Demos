@@ -4,6 +4,7 @@
 
 [验证和分析Android的事件分发机制 -- 验证部分的记录](https://juejin.im/post/5dee7424518825127a03663a)
 
+觉得有用的话可以点下右上方的 star 哦:blush:！
 
 ---
 

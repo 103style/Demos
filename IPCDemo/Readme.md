@@ -6,3 +6,5 @@
 * [进程间通信的方式之AIDL](https://www.jianshu.com/p/7cea15d77704)
 * [进程间通信的方式之ContentProvider](https://www.jianshu.com/p/7754a3965130)
 * [进程间通信的方式之Scoket——实现与AI鬼才聊天](https://www.jianshu.com/p/f73840102092)
+
+觉得有用的话可以点下右上方的 star 哦:blush:！
