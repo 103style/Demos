@@ -138,7 +138,7 @@ public class ItemHorizontalScrollerView extends ViewGroup {
                 scrollBy(-dx, 0);
 
                 //在不需要在左滑和右滑的时候 事件交给父控件处理
-                if (dx == 0) {
+                if (dx == 0 && !used) {
                     getParent().requestDisallowInterceptTouchEvent(false);
                 }
                 break;
