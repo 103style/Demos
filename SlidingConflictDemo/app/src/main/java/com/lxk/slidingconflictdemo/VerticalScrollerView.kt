@@ -22,36 +22,23 @@ class VerticalScrollerView @JvmOverloads constructor(context: Context, attrs: At
     private var y1: Float = 0.toFloat()
     private var lastX: Float = 0.toFloat()
     private var lastY: Float = 0.toFloat()
-    private var scroller: Scroller? = null
+    private var scroller: Scroller = Scroller(context)
 
     private var mHeight: Int = 0
     private var mContentHeight: Int = 0
 
-    init {
-        init(context)
-    }
 
-    private fun init(context: Context) {
-        scroller = Scroller(context)
-    }
+    override fun generateLayoutParams(p: LayoutParams) = MarginLayoutParams(p)
 
-    override fun generateLayoutParams(p: ViewGroup.LayoutParams): ViewGroup.LayoutParams {
-        return ViewGroup.MarginLayoutParams(p)
-    }
+    override fun generateLayoutParams(attrs: AttributeSet) = MarginLayoutParams(context, attrs)
 
-    override fun generateLayoutParams(attrs: AttributeSet): ViewGroup.LayoutParams {
-        return ViewGroup.MarginLayoutParams(context, attrs)
-    }
-
-    override fun generateDefaultLayoutParams(): ViewGroup.LayoutParams {
-        return ViewGroup.MarginLayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
-    }
+    override fun generateDefaultLayoutParams() = MarginLayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        val widthSize = View.MeasureSpec.getSize(widthMeasureSpec)
-        val widthMode = View.MeasureSpec.getMode(widthMeasureSpec)
-        val heightSize = View.MeasureSpec.getSize(heightMeasureSpec)
-        val heightMode = View.MeasureSpec.getMode(heightMeasureSpec)
+        val widthSize = MeasureSpec.getSize(widthMeasureSpec)
+        val widthMode = MeasureSpec.getMode(widthMeasureSpec)
+        val heightSize = MeasureSpec.getSize(heightMeasureSpec)
+        val heightMode = MeasureSpec.getMode(heightMeasureSpec)
 
         var contentHeight = 0
         var contentMaxWidth = 0
@@ -59,7 +46,7 @@ class VerticalScrollerView @JvmOverloads constructor(context: Context, attrs: At
             val child = getChildAt(i)
             measureChild(child, widthMeasureSpec, heightMeasureSpec)
 
-            val layoutParams = child.layoutParams as ViewGroup.MarginLayoutParams
+            val layoutParams = child.layoutParams as MarginLayoutParams
             val cWidth = layoutParams.marginEnd + layoutParams.marginStart + child.measuredWidth
             val cHeight = layoutParams.topMargin + layoutParams.bottomMargin + child.measuredHeight
             contentMaxWidth = Math.max(cWidth, contentMaxWidth)
@@ -76,7 +63,7 @@ class VerticalScrollerView @JvmOverloads constructor(context: Context, attrs: At
         var top = 0
         for (i in 0 until childCount) {
             val view = getChildAt(i)
-            val layoutParams = view.layoutParams as ViewGroup.MarginLayoutParams
+            val layoutParams = view.layoutParams as MarginLayoutParams
             //从上到下依次布局
             view.layout(layoutParams.leftMargin, layoutParams.topMargin + top,
                     layoutParams.leftMargin + view.measuredWidth,
@@ -99,8 +86,8 @@ class VerticalScrollerView @JvmOverloads constructor(context: Context, attrs: At
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
         when (event.action) {
-            MotionEvent.ACTION_DOWN -> if (!scroller!!.isFinished) {
-                scroller!!.abortAnimation()
+            MotionEvent.ACTION_DOWN -> if (!scroller.isFinished) {
+                scroller.abortAnimation()
             }
             MotionEvent.ACTION_MOVE -> {
                 val dx = (x1 - lastX).toInt()
@@ -136,13 +123,13 @@ class VerticalScrollerView @JvmOverloads constructor(context: Context, attrs: At
      * @param dy
      */
     private fun smoothScrollBy(dy: Int) {
-        scroller!!.startScroll(0, scrollY, 0, dy, 500)
+        scroller.startScroll(0, scrollY, 0, dy, 500)
         invalidate()
     }
 
     override fun computeScroll() {
-        if (scroller!!.computeScrollOffset()) {
-            scrollTo(scroller!!.currX, scroller!!.currY)
+        if (scroller.computeScrollOffset()) {
+            scrollTo(scroller.currX, scroller.currY)
             postInvalidate()
         }
     }

@@ -27,8 +27,8 @@ class HorizontalScrollerView @JvmOverloads constructor(context: Context, attrs: 
     private var y1: Float = 0.toFloat()
     private var lastX: Float = 0.toFloat()
     private var lastY: Float = 0.toFloat()
-    private val lastInterceptX: Float = 0.toFloat()
-    private val lastInterceptY: Float = 0.toFloat()
+    private var lastInterceptX: Float = 0.toFloat()
+    private var lastInterceptY: Float = 0.toFloat()
     /**
      * 子控件的宽高和个数
      */
@@ -80,40 +80,37 @@ class HorizontalScrollerView @JvmOverloads constructor(context: Context, attrs: 
         }
     }
 
-    //    //外部拦截法
-    //    @Override
-    //    public boolean onInterceptTouchEvent(MotionEvent ev) {
-    //        boolean intercept;
-    //        float x = ev.getX();
-    //        float y = ev.getY();
-    //        switch (ev.getAction()) {
-    //            case MotionEvent.ACTION_DOWN:
-    //                intercept = false;
-    //                if (!scroller.isFinished()) {
-    //                    scroller.abortAnimation();
-    //                    intercept = true;
-    //                }
-    //                break;
-    //            case MotionEvent.ACTION_MOVE:
-    //                float dx = x - lastInterceptX;
-    //                float dy = y - lastInterceptY;
-    //                //水平滑动距离大于竖直滑动
-    //                intercept = Math.abs(dx) > Math.abs(dy) + 50;
-    //                break;
-    //            case MotionEvent.ACTION_UP:
-    //            default:
-    //                intercept = false;
-    //                break;
-    //        }
-    //        lastX = x;
-    //        lastY = y;
-    //
-    //        lastInterceptX = x;
-    //        lastInterceptY = y;
-    //
-    ////        return false;
-    //        return intercept;
-    //    }
+//    //外部拦截法
+//    override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
+//        var intercept = false
+//        x1 = ev.x
+//        y1 = ev.y
+//        when (ev.action) {
+//            MotionEvent.ACTION_DOWN -> {
+//                intercept = false
+//                if (!scroller.isFinished) {
+//                    scroller.abortAnimation()
+//                    intercept = true
+//                }
+//            }
+//            MotionEvent.ACTION_MOVE -> {
+//                val dx = x1 - lastInterceptX
+//                val dy = y1 - lastInterceptY
+//                //水平滑动距离大于竖直滑动
+//                intercept = Math.abs(dx) > Math.abs(dy) + 50
+//            }
+//            else -> {
+//            }
+//        }
+//        lastX = x1
+//        lastY = y1
+//
+//        lastInterceptX = x1
+//        lastInterceptY = y1
+//
+//        //return false;
+//        return intercept
+//    }
 
 
     // 内部拦截法
