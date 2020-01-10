@@ -3,9 +3,9 @@ package com.lxk.slidingconflictdemo
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
-
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
+import com.lxk.slidingconflictdemo.HorizontalScrollerView.OnChangeListener
 
 /**
  * @author https://github.com/103style
@@ -13,12 +13,6 @@ import androidx.appcompat.widget.AppCompatButton
  * 主页
  */
 class HomeActivity : AppCompatActivity(), View.OnClickListener {
-
-    inner class OnChangeListener : HorizontalScrollerView.OnChangeListener {
-        override fun indexChange(index: Int) {
-            changeTabStatue(index)
-        }
-    }
 
     /**
      * 底部三个按钮
@@ -71,8 +65,14 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener {
         setupRsv(rsv1)
         setupRsv(rsv2)
         setupRsv(rsv3)
-        horizontalScrollerView!!.setOnChangeListener(OnChangeListener())
+        horizontalScrollerView!!.setOnChangeListener(
+                object : OnChangeListener {
+                    override fun indexChange(index: Int) {
+                        changeTabStatue(index)
+                    }
+                })
     }
+
 
     /**
      * 给 VerticalScrollerView 添加子View
