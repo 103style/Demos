@@ -1,0 +1,59 @@
+apply plugin: 'com.android.application'
+
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.2"
+    defaultConfig {
+        applicationId "com.lxk.gradleplugindemo"
+        minSdkVersion 21
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+}
+
+
+// --------------START-----------------
+
+class GreetingPluginExtension {
+    String message
+    String greeter
+}
+
+class GreetingPlugin implements Plugin<Project> {
+    void apply(Project project) {
+        def extension = project.extensions.create('greeting', GreetingPluginExtension)
+        project.task('hello') {
+            println 'start hello task'
+            doLast {
+                println "${extension.message} from ${extension.greeter}"
+            }
+            println 'end hello task'
+        }
+    }
+}
+
+// Apply the plugin
+apply plugin: GreetingPlugin
+// Configure the extension using a DSL block
+greeting {
+    message = 'Hi'
+    greeter = 'Gradle'
+}
+// ---------------END------------------
