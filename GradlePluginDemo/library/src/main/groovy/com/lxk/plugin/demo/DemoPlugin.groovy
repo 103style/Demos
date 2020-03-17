@@ -3,16 +3,22 @@ package com.lxk.plugin.demo
 import com.android.build.api.transform.*
 import com.android.build.gradle.AppExtension
 import com.android.build.gradle.internal.pipeline.TransformManager
+import com.lxk.plugin.TestClassVisitor
 import org.apache.commons.codec.digest.DigestUtils
 import org.apache.commons.io.FileUtils
 import org.apache.commons.io.IOUtils
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.objectweb.asm.ClassReader
+import org.objectweb.asm.ClassVisitor
+import org.objectweb.asm.ClassWriter
 
 import java.util.jar.JarEntry
 import java.util.jar.JarFile
 import java.util.jar.JarOutputStream
 import java.util.zip.ZipEntry
+
+import static org.objectweb.asm.ClassReader.EXPAND_FRAMES
 
 class DemoPlugin extends Transform implements Plugin<Project> {
 
@@ -62,7 +68,7 @@ class DemoPlugin extends Transform implements Plugin<Project> {
                 handleDirectoryInput(directoryInput, outputProvider)
             }
 
-            //遍历jar包中的class文件
+//            //遍历jar包中的class文件
             input.jarInputs.each { JarInput jarInput ->
                 handleJarInput(jarInput, outputProvider)
             }
@@ -75,10 +81,13 @@ class DemoPlugin extends Transform implements Plugin<Project> {
         if (directoryInput.file.isDirectory()) {
             directoryInput.file.eachFileRecurse { File file ->
                 def name = file.name
-                println("handleDirectoryInput -> file name = $name")
                 if (checkClassName(name)) {
                     println("-----------handleDirectoryInput  deal with legal class file < $name > -----------")
-                    modifyClassWithASM(file.bytes)
+                    byte[] code = modifyClassWithASM(file.bytes)
+                    FileOutputStream fos = new FileOutputStream(
+                            file.parentFile.absolutePath + File.separator + name)
+                    fos.write(code)
+                    fos.close()
                 }
             }
         }
@@ -92,8 +101,11 @@ class DemoPlugin extends Transform implements Plugin<Project> {
     }
 
     static byte[] modifyClassWithASM(byte[] bytes) {
-        // TODO ASM插桩
-        return bytes
+        ClassReader classReader = new ClassReader(bytes)
+        ClassWriter classWriter = new ClassWriter(classReader, ClassWriter.COMPUTE_MAXS)
+        ClassVisitor cv = new TestClassVisitor(classWriter)
+        classReader.accept(cv, EXPAND_FRAMES)
+        return classWriter.toByteArray()
     }
 
     void handleJarInput(JarInput jarInput, TransformOutputProvider outputProvider) {
@@ -117,7 +129,6 @@ class DemoPlugin extends Transform implements Plugin<Project> {
                 String entryName = jarEntry.name
                 ZipEntry zipEntry = new ZipEntry(entryName)
                 InputStream inputStream = jarFile.getInputStream(zipEntry)
-                println("handleJarInput -> entryName = $entryName")
                 //插桩class
                 if (checkClassName(entryName)) {
                     //class文件处理
@@ -141,11 +152,15 @@ class DemoPlugin extends Transform implements Plugin<Project> {
         }
     }
 
+    /**
+     * 找到我们需要修改的测试类
+     */
     static boolean checkClassName(String name) {
-        return name.endsWith(".class") &&
-                !name.startsWith("R\$") &&
-                !"R.class".startsWith(name) &&
-                !"BuildConfig.class".startsWith(name) &&
-                "android/support/v4/app/FragmentActivity.class".equals(name)
+        return name.endsWith("GradlePluginASMTestActivity.class")
+//        return name.endsWith(".class") &&
+//                !name.startsWith("R\$") &&
+//                !"R.class".startsWith(name) &&
+//                !"BuildConfig.class".startsWith(name) &&
+//                "android/support/v4/app/FragmentActivity.class".equals(name)
     }
 }

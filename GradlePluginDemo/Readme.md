@@ -23,6 +23,16 @@ class DemoPlugin extends Transform implements Plugin<Project> {
 再 命令行（Terminal） 输入 `gradlew build` 能看到 `DemoPlugin.groovy` 相关的日记信息
 
 
+### Demo功能
+
+通过 `ASM ByteCode Outline` 获取 [Test](https://github.com/103style/Demos/tree/master/GradlePluginDemo/app/src/main/java/com/lxk/gradleplugindemo/Test.java) 的字节码
+
+通过 ASM 给 [GradlePluginASMTestActivity](https://github.com/103style/Demos/tree/master/GradlePluginDemo/app/src/main/java/com/lxk/gradleplugindemo/GradlePluginASMTestActivity.java) 的 `clickTest` 方法添加 耗时统计。
+
+可以拓展为所有方法添加耗时检测。
+
+
+
 ### 参考文档
-* [在AndroidStudio中自定义Gradle插件](https://blog.csdn.net/huachao1001/article/details/51810328) 
+* [在AndroidStudio中自定义Gradle插件](https://blog.csdn.net/huachao1001/article/details/51810328)
 * [函数插桩（Gradle + ASM）](https://juejin.im/post/5c6eaa066fb9a049fc042048)
