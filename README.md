@@ -8,6 +8,10 @@
 
 * [SlidingConflictDemo：Android 处理滑动冲突Demo](https://github.com/103style/Demos/tree/master/SlidingConflictDemo)
 
+* [IPCDemo: 进程间通信的几种方式Demo](https://github.com/103style/Demos/tree/master/IPCDemo)
+
+* [SurfaceViewDemo](https://github.com/103style/Demos/tree/master/SurfaceViewDemo)
+
 * [JavaPoetDemo：JavaPot Demo](https://github.com/103style/Demos/tree/master/JavaPoetDemo)
 
 * [AnnotationDemo：Android注解Demo](https://github.com/103style/Demos/tree/master/AnnotationDemo)
@@ -15,3 +19,4 @@
 * [ASMDemo：ASM操作Demo](https://github.com/103style/Demos/tree/master/ASMDemo)
 
 * [GradlePluginDemo：自定义Gradle插件 实现方法耗时检测](https://github.com/103style/Demos/tree/master/GradlePluginDemo)
+
