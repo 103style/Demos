@@ -11,3 +11,5 @@
 * [JavaPot Demo](https://github.com/103style/Demos/tree/master/JavaPoetDemo)
 
 * [Android注解Demo](https://github.com/103style/Demos/tree/master/AnnotationDemo)
+
+* [自定义Gradle插件](https://github.com/103style/Demos/tree/master/GradlePluginDemo)
