@@ -4,18 +4,29 @@ apply plugin: 'maven'
 dependencies {
     implementation gradleApi()
     implementation localGroovy()
+    implementation 'com.android.tools.build:gradle:3.5.3'
 }
 
 repositories {
     mavenCentral()
+    google()
+    jcenter()
 }
 
+
+//打开 gradle 执行 library -> upload -> uploadArchives 任务
 group = 'com.lxk.plugin'
-version = '1.0.0'
+version = '0.0.1'
 
 uploadArchives {
     repositories {
         mavenDeployer {
+            //提交到远程服务器：
+            //repository(url: "http://www.xxx.com/repos") {
+            //   authentication(userName: "admin", password: "admin")
+            //}
+
+            //本地的Maven地址:当前工程下
             repository(url: uri('../repo'))
         }
     }
