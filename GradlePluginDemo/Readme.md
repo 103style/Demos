@@ -21,3 +21,8 @@ class DemoPlugin extends Transform implements Plugin<Project> {
 
 
 再 命令行（Terminal） 输入 `gradlew build` 能看到 `DemoPlugin.groovy` 相关的日记信息
+
+
+### 参考文档
+* [在AndroidStudio中自定义Gradle插件](https://blog.csdn.net/huachao1001/article/details/51810328) 
+* [函数插桩（Gradle + ASM）](https://juejin.im/post/5c6eaa066fb9a049fc042048)
