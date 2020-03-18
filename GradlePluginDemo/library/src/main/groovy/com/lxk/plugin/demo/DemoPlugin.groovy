@@ -63,12 +63,12 @@ class DemoPlugin extends Transform implements Plugin<Project> {
         // directoryInputs为文件夹中的class文件，
         // 而jarInputs为jar包中的class文件。
         inputs.each { TransformInput input ->
-            ///遍历文件夹中的class文件
+            ///遍历文件夹中的class文件  也就是当前工程对应的class文件
             input.directoryInputs.each { DirectoryInput directoryInput ->
                 handleDirectoryInput(directoryInput, outputProvider)
             }
 
-//            //遍历jar包中的class文件
+            //遍历jar包中的class文件 依赖包中的class文件
             input.jarInputs.each { JarInput jarInput ->
                 handleJarInput(jarInput, outputProvider)
             }
