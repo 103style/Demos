@@ -10,7 +10,6 @@ import android.widget.EditText;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-
 import com.lxk.ipcdemo.R;
 
 import java.io.BufferedReader;
@@ -90,7 +89,7 @@ public class SocketTestActivity extends AppCompatActivity {
             return;
         }
         mPrintWriter.println(temp);
-        editText.setText("");
+        editText.post(() -> editText.setText(""));
     }
 
 
