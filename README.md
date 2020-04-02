@@ -20,3 +20,5 @@
 
 * [GradlePluginDemo：自定义Gradle插件 实现方法耗时检测](https://github.com/103style/Demos/tree/master/GradlePluginDemo)
 
+* [GooglePlay App Bundle动态下发demo](https://github.com/103style/Demos/tree/master/TestAppBundle)
+
