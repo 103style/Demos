@@ -78,8 +78,8 @@ public class PluginLoader {
             Object[] finalArray = (Object[]) Array.newInstance(dexElements.getClass().getComponentType(),
                     dexElements.length + pluginDexElements.length);
             //合并插件和应用内的类
-            System.arraycopy(dexElements, 0, finalArray, 0, pluginDexElements.length);
-            System.arraycopy(pluginDexElements, 0, finalArray, pluginDexElements.length, dexElements.length);
+            System.arraycopy(pluginDexElements, 0, finalArray, 0, pluginDexElements.length);
+            System.arraycopy(dexElements, 0, finalArray, pluginDexElements.length, dexElements.length);
             //把新数组替换掉原先的数组
             dexElementsFiled.set(pathList, finalArray);
             Log.e(HookUtils.TAG, "PluginLoader load plugin success!");
