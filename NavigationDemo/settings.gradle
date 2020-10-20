@@ -1,0 +1,4 @@
+include ':libnavcomplier'
+include ':libnavannotation'
+include ':app'
+rootProject.name = "NavigationDemo"
