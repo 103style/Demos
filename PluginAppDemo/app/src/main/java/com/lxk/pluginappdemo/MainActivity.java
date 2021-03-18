@@ -17,13 +17,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        HookUtils.hookActivityInstrumentation(this);
-        HookUtils.hookActivityThreadHandler();
+
         findViewById(R.id.bt_load).setOnClickListener(v -> loadPlugin());
         findViewById(R.id.bt_go).setOnClickListener(v -> gotoPlugin());
     }
 
     private void loadPlugin() {
+        HookUtils.hookActivityInstrumentation(this);
         PluginLoader.loadPluginClass(this, getClassLoader());
         PluginLoader.addResource(this);
     }

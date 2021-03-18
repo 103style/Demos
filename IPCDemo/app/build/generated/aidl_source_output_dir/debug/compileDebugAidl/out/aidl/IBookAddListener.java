@@ -4,6 +4,8 @@
 package aidl;
 
 public interface IBookAddListener extends android.os.IInterface {
+    public void onBookArrived(aidl.Book newBook) throws android.os.RemoteException;
+
     /**
      * Default implementation for IBookAddListener.
      */
@@ -22,6 +24,7 @@ public interface IBookAddListener extends android.os.IInterface {
      * Local-side IPC implementation stub class.
      */
     public static abstract class Stub extends android.os.Binder implements aidl.IBookAddListener {
+        static final int TRANSACTION_onBookArrived = (android.os.IBinder.FIRST_CALL_TRANSACTION + 0);
         private static final java.lang.String DESCRIPTOR = "aidl.IBookAddListener";
 
         /**
@@ -44,6 +47,18 @@ public interface IBookAddListener extends android.os.IInterface {
                 return ((aidl.IBookAddListener) iin);
             }
             return new aidl.IBookAddListener.Stub.Proxy(obj);
+        }
+
+        public static boolean setDefaultImpl(aidl.IBookAddListener impl) {
+            if (Stub.Proxy.sDefaultImpl == null && impl != null) {
+                Stub.Proxy.sDefaultImpl = impl;
+                return true;
+            }
+            return false;
+        }
+
+        public static aidl.IBookAddListener getDefaultImpl() {
+            return Stub.Proxy.sDefaultImpl;
         }
 
         @Override
@@ -78,6 +93,7 @@ public interface IBookAddListener extends android.os.IInterface {
         }
 
         private static class Proxy implements aidl.IBookAddListener {
+            public static aidl.IBookAddListener sDefaultImpl;
             private android.os.IBinder mRemote;
 
             Proxy(android.os.IBinder remote) {
@@ -116,24 +132,6 @@ public interface IBookAddListener extends android.os.IInterface {
                     _data.recycle();
                 }
             }
-
-            public static aidl.IBookAddListener sDefaultImpl;
-        }
-
-        static final int TRANSACTION_onBookArrived = (android.os.IBinder.FIRST_CALL_TRANSACTION + 0);
-
-        public static boolean setDefaultImpl(aidl.IBookAddListener impl) {
-            if (Stub.Proxy.sDefaultImpl == null && impl != null) {
-                Stub.Proxy.sDefaultImpl = impl;
-                return true;
-            }
-            return false;
-        }
-
-        public static aidl.IBookAddListener getDefaultImpl() {
-            return Stub.Proxy.sDefaultImpl;
         }
     }
-
-    public void onBookArrived(aidl.Book newBook) throws android.os.RemoteException;
 }

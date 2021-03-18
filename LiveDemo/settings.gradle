@@ -1,2 +1,3 @@
+include ':push'
 include ':app'
 rootProject.name = "LiveDemo"

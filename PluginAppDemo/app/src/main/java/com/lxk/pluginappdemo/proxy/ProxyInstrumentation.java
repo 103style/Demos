@@ -53,4 +53,17 @@ public class ProxyInstrumentation extends Instrumentation {
         }
         return null;
     }
+
+    @Override
+    public Activity newActivity(ClassLoader cl, String className, Intent intent) throws ClassNotFoundException, IllegalAccessException, InstantiationException {
+        if (intent != null && intent.hasExtra(ProxyActivity.TARGET_COMPONENT)) {
+            Intent targetIntent = intent.getParcelableExtra(ProxyActivity.TARGET_COMPONENT);
+            intent.setComponent(targetIntent.getComponent());
+            Log.e(HookUtils.TAG, "ProxyHandlerCallback targetIntent = "
+                    + targetIntent.toString());
+            return instrumentation.newActivity(cl, targetIntent.getComponent().getClassName(), targetIntent);
+        }
+        return super.newActivity(cl, className, intent);
+    }
+
 }
